@@ -23,11 +23,11 @@
     gap: 12px;
 }
 
-.game__grid-item {
-    border-radius: 50%;
-    background: var(--dark);
-    cursor: pointer;
-}
+/*.game__grid-item {*/
+/*    border-radius: 50%;*/
+/*    background: var(--dark);*/
+/*    cursor: pointer;*/
+/*}*/
 
 .game__grid-items.game__grid-items-4 {
     gap: 12px;
@@ -42,36 +42,64 @@
 .game__grid-item-4 {
     width: 72px;
     height: 72px;
+    font-size: 40px;
+    line-height: 30px;
 }
 
 .game__grid-item-6 {
     width: 47px;
     height: 47px;
+    font-size: 24px;
+    line-height: 50px;
 }
 
 .game__grid-items-container {
     border-radius: 50%;
-    overflow: hidden;
+    cursor: pointer;
     position: relative;
+    transition: all 0.3s ease-in-out;
     transform-style: preserve-3d;
-
+    will-change: transform;
+    transform: rotateY(0deg);
 }
 
 .game__grid-item-front {
+    border-radius: 50%;
     position: absolute;
+    inset: 0;
+    z-index: -1;
     display: grid;
+    will-change: transform;
     place-content: center;
+    transform-style: preserve-3d;
+    background: var(--dark-lighter);
+    transform: rotateY(180deg);
+
+    font-weight: 700;
+    color: var(--white);
 }
 
 .game__grid-item-back {
+    border-radius: 50%;
     position: absolute;
+    inset: 0;
+    background: var(--dark);
+    will-change: transform;
+    transform-style: preserve-3d;
+    transform: translateZ(1px);
+}
+
+.game__grid-item-container--flipped {
+    transform: rotateY(180deg);
+}
+
+.game__grid-item-container--active {
+    background: var(--orange);
 }
 
 .game__record {
-
     margin-top: 100px;
     display: flex;
-    /*width: 100%;*/
     gap: 25px;
 }
 
