@@ -1,6 +1,6 @@
 import {addClass, getAllNodeElements, getNodeElement, removeClass,} from './utils.js'
 import {generateGridItems} from "./game-logic.js"
-import {MatchGrid} from "./math-grid.js"
+import {MatchGrid} from "./match-grid.js"
 import {gameDefaultSetting} from "./constants.js"
 import {setTimer} from "./set-timer.js";
 import {restartGame} from "./restart-game.js";

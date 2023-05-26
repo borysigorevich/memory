@@ -37,6 +37,6 @@ export const setTimer = (time, gameGrid, restore) => {
 
         timer.innerHTML = `0${time.min}:${time.sec > 9 ? time.sec : '0' + time.sec}`
 
-    }, 100);
+    }, 1000);
 
 }

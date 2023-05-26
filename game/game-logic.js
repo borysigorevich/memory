@@ -1,3 +1,4 @@
+import anime from '../node_modules/animejs/lib/anime.es.js'
 import {
     addClass,
     createNodeElement,
@@ -27,9 +28,13 @@ export const generateGridItems = (time, gameGrid) => {
 
     [...Array(Math.pow(Number(gameGrid.grid), 2))].forEach((_) => {
 
+        const animateContainer = createNodeElement('div');
         const gridItemContainer = createNodeElement('div');
         const gridItemFront = createNodeElement('div');
         const gridItemBack = createNodeElement('div');
+
+        addClass(animateContainer, 'game__grid-item-animate-container')
+        animateContainer.appendChild(gridItemContainer)
 
         addClass(gridItemContainer, `game__grid-items-container`)
         addClass(gridItemContainer, `game__grid-item-${gameGrid.grid}`)
@@ -50,12 +55,21 @@ export const generateGridItems = (time, gameGrid) => {
         gridItemContainer.appendChild(gridItemBack)
 
         addClass(playground, `game__grid-items-${gameGrid.grid}`)
-        playground.appendChild(gridItemContainer);
+        playground.appendChild(animateContainer);
 
         gridItemContainer.addEventListener('click', function () {
             gameLogic.call(this, gameProps, time)
         })
     })
+
+    anime({
+        targets: '.game__grid-item-animate-container',
+        scale: [
+            {value: .1, easing: 'easeOutSine', duration: 300},
+            {value: 1, easing: 'easeInOutQuad', duration: 500}
+        ],
+        delay: anime.stagger(200, {grid: [gameGrid.grid, gameGrid.grid], from: 'center'})
+    });
 }
 
 function gameLogic(props, time) {
