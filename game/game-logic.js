@@ -8,12 +8,14 @@ import {
     getRandomNumber,
     removeClass
 } from "./utils.js"
+import {setTimer} from "./set-timer.js";
 
 export const generateGridItems = (time, gameGrid) => {
 
     let numbersForGrid = generatePlayground(gameGrid.grid)
 
     const playground = getNodeElement('.game__grid-items');
+
     const moves = getNodeElement('.moves');
     moves.innerHTML = '0'
 
@@ -70,6 +72,14 @@ export const generateGridItems = (time, gameGrid) => {
         ],
         delay: anime.stagger(200, {grid: [gameGrid.grid, gameGrid.grid], from: 'center'})
     });
+
+    playground.addEventListener('mouseleave', function () {
+        clearInterval(time.intervalId)
+        time.intervalId = null
+    })
+    playground.addEventListener('mouseenter', function () {
+        if(!time.intervalId) setTimer(time, gameGrid, true)
+    })
 }
 
 function gameLogic(props, time) {
@@ -121,6 +131,7 @@ function gameLogic(props, time) {
                 totalMovesNode.innerHTML = `${movesNode.innerHTML} Moves`
 
                 clearInterval(time.intervalId)
+                time.intervalId = null
                 endModeNode.classList.add('open')
                 time.min = 0
                 time.sec = 0

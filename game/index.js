@@ -59,6 +59,7 @@ if (setupButton) setupButton.addEventListener('click', setupGame)
 document.addEventListener('visibilitychange', function () {
     if (document.visibilityState === 'hidden') {
         clearInterval(time.intervalId)
+        time.intervalId = null
     }
 
     if (document.visibilityState === 'visible' && gameGrid.isStarted) {

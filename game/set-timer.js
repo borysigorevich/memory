@@ -22,6 +22,7 @@ export const setTimer = (time, gameGrid, restore) => {
 
             endModeNode.classList.add('open')
             clearInterval(time.intervalId)
+            time.intervalId = null
             gameGrid.isStarted = false
             time.sec = 0
             time.min = 0
