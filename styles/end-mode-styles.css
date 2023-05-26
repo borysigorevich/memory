@@ -86,7 +86,7 @@
 
 .end-mode__modal-button-restart {
     color: var(--white);
-    background: var(--orange);
+    background: var(--primary);
 }
 
 .end-mode__modal-button-setup {

@@ -8,6 +8,6 @@ export const restartGame = (time, gameGrid) => {
     const playground = getNodeElement('.game__grid-items');
     playground.innerHTML = ''
 
-    setTimer(time, gameGrid.limit)
-    generateGridItems(gameGrid.grid, time)
+    setTimer(time, gameGrid)
+    generateGridItems(time, gameGrid)
 }

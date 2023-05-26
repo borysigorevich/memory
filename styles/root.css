@@ -8,7 +8,7 @@
 }
 
 :root {
-    --orange: rgb(253, 162, 20);
+    --primary: rgb(253, 162, 20);
     --dark: rgb(21, 41, 56);
     --dark-light: rgb(48, 72, 89);
     --dark-lighter: rgb(188, 206, 217);

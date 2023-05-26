@@ -1,8 +1,9 @@
 export class MatchGrid {
 
     constructor(args) {
-        this.font = args.font
+        this.color = args.color
         this.grid = args.grid
         this.limit = args.limit
+        this.isStarted = false
     }
 }

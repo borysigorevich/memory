@@ -8,17 +8,16 @@ import {
     removeClass
 } from "./utils.js"
 
-export const generateGridItems = (dimension, time, timeLimit) => {
+export const generateGridItems = (time, gameGrid) => {
 
-    let numbersForGrid = generatePlayground(dimension)
+    let numbersForGrid = generatePlayground(gameGrid.grid)
 
     const playground = getNodeElement('.game__grid-items');
     const moves = getNodeElement('.moves');
     moves.innerHTML = '0'
 
     const gameProps = {
-        timeLimit,
-        dimension,
+        gameGrid,
         prevElement: null,
         numbers: [],
         results: [],
@@ -26,17 +25,17 @@ export const generateGridItems = (dimension, time, timeLimit) => {
         movesNodeElement: moves
     };
 
-    [...Array(Math.pow(Number(dimension), 2))].forEach((_) => {
+    [...Array(Math.pow(Number(gameGrid.grid), 2))].forEach((_) => {
 
         const gridItemContainer = createNodeElement('div');
         const gridItemFront = createNodeElement('div');
         const gridItemBack = createNodeElement('div');
 
         addClass(gridItemContainer, `game__grid-items-container`)
-        addClass(gridItemContainer, `game__grid-item-${dimension}`)
+        addClass(gridItemContainer, `game__grid-item-${gameGrid.grid}`)
 
         addClass(gridItemFront, 'game__grid-item-front')
-        addClass(gridItemFront, `game__grid-item-${dimension}`)
+        addClass(gridItemFront, `game__grid-item-${gameGrid.grid}`)
 
 
         const randomIndex = getRandomNumber(numbersForGrid.length)
@@ -45,12 +44,12 @@ export const generateGridItems = (dimension, time, timeLimit) => {
 
 
         addClass(gridItemBack, 'game__grid-item-back')
-        addClass(gridItemBack, `game__grid-item-${dimension}`)
+        addClass(gridItemBack, `game__grid-item-${gameGrid.grid}`)
 
         gridItemContainer.appendChild(gridItemFront)
         gridItemContainer.appendChild(gridItemBack)
 
-        addClass(playground, `game__grid-items-${dimension}`)
+        addClass(playground, `game__grid-items-${gameGrid.grid}`)
         playground.appendChild(gridItemContainer);
 
         gridItemContainer.addEventListener('click', function () {
@@ -89,14 +88,14 @@ function gameLogic(props, time) {
             removeClass(frontItemNode, 'game__grid-item-container--active')
 
             // END GAME
-            if (props.results.length === Math.pow(props.dimension, 2) / 2) {
+            if (props.results.length === Math.pow(props.gameGrid.grid, 2) / 2) {
                 const endModeTitleNode = getNodeElement('.end-mode__modal-title');
                 const movesNode = getNodeElement('.moves');
                 const endModeNode = getNodeElement('.end-mode');
                 const timeElapsedNode = getNodeElement('.elapsed');
                 const totalMovesNode = getNodeElement('.total-moves');
 
-                const totalLimitSeconds = Number(props.timeLimit) * 60
+                const totalLimitSeconds = Number(props.gameGrid.limit) * 60
                 const totalLeftSeconds = time.min * 60 + time.sec
 
                 const totalElapsedSeconds = totalLimitSeconds - totalLeftSeconds
@@ -111,6 +110,7 @@ function gameLogic(props, time) {
                 endModeNode.classList.add('open')
                 time.min = 0
                 time.sec = 0
+                props.gameGrid.isStarted = false
             }
 
             props.prevElement = null

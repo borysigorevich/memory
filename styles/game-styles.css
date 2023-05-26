@@ -23,12 +23,6 @@
     gap: 12px;
 }
 
-/*.game__grid-item {*/
-/*    border-radius: 50%;*/
-/*    background: var(--dark);*/
-/*    cursor: pointer;*/
-/*}*/
-
 .game__grid-items.game__grid-items-4 {
     gap: 12px;
     grid-template-columns: repeat(4, 1fr);
@@ -94,7 +88,7 @@
 }
 
 .game__grid-item-container--active {
-    background: var(--orange);
+    background: var(--primary);
 }
 
 .game__record {

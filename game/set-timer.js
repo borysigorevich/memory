@@ -1,14 +1,10 @@
 import {getNodeElement} from "./utils.js";
 
-export const setTimer = (time, limit, restore) => {
+export const setTimer = (time, gameGrid, restore) => {
     const timer = getNodeElement('.timer');
+    timer.innerHTML =  `0${restore ? time.min : gameGrid.limit}:${time.sec > 9 ? time.sec : '0' + time.sec}`
 
-    console.log(time, limit)
-
-    const normalizedLimitTime = `0${restore ? time.min : limit}:${time.sec > 9 ? time.sec : '0' + time.sec}`
-    timer.innerHTML = normalizedLimitTime
-
-    if (!restore) time.min = limit
+    if (!restore) time.min = gameGrid.limit
 
     const endModeTitleNode = getNodeElement('.end-mode__modal-title');
     const movesNode = getNodeElement('.moves');
@@ -21,11 +17,14 @@ export const setTimer = (time, limit, restore) => {
         if (time.min === 0 && time.sec === 0) {
 
             endModeTitleNode.innerHTML = 'Time is up!'
-            timeElapsedNode.innerHTML = normalizedLimitTime
+            timeElapsedNode.innerHTML = `0${gameGrid.limit}:00`
             totalMovesNode.innerHTML = `${movesNode.innerHTML} Moves`
 
             endModeNode.classList.add('open')
             clearInterval(time.intervalId)
+            gameGrid.isStarted = false
+            time.sec = 0
+            time.min = 0
             return
         }
 
@@ -38,6 +37,6 @@ export const setTimer = (time, limit, restore) => {
 
         timer.innerHTML = `0${time.min}:${time.sec > 9 ? time.sec : '0' + time.sec}`
 
-    }, 1000);
+    }, 100);
 
 }

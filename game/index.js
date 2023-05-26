@@ -5,6 +5,7 @@ import {gameDefaultSetting} from "./constants.js"
 import {setTimer} from "./set-timer.js";
 import {restartGame} from "./restart-game.js";
 import {setupGame} from "./setup-game.js";
+import {setColorPalette} from "./set-color-palette.js";
 
 let gameGrid = new MatchGrid(gameDefaultSetting)
 const time = {
@@ -41,9 +42,10 @@ if (startButton) {
     startButton.addEventListener('click', function () {
         const startModeDiv = getNodeElement('.start-mode');
         startModeDiv.style.display = 'none';
-
-        setTimer(time, gameGrid.limit)
-        generateGridItems(gameGrid.grid, time, gameGrid.limit)
+        setColorPalette(gameGrid.color)
+        gameGrid.isStarted = true
+        setTimer(time, gameGrid)
+        generateGridItems(time, gameGrid)
 
     })
 }
@@ -59,7 +61,7 @@ document.addEventListener('visibilitychange', function () {
         clearInterval(time.intervalId)
     }
 
-    if (document.visibilityState === 'visible') {
-        setTimer(time, gameGrid.limit, true)
+    if (document.visibilityState === 'visible' && gameGrid.isStarted) {
+        setTimer(time, gameGrid, true)
     }
 })
