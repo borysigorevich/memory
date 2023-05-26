@@ -49,7 +49,17 @@ if (startButton) {
 }
 
 const restartButton = getNodeElement('.end-mode__modal-button-restart');
-if(restartButton) restartButton.addEventListener('click', () => restartGame(time, gameGrid))
+if (restartButton) restartButton.addEventListener('click', () => restartGame(time, gameGrid))
 
 const setupButton = getNodeElement('.end-mode__modal-button-setup');
-if(setupButton)setupButton.addEventListener('click', setupGame)
+if (setupButton) setupButton.addEventListener('click', setupGame)
+
+document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'hidden') {
+        clearInterval(time.intervalId)
+    }
+
+    if (document.visibilityState === 'visible') {
+        setTimer(time, gameGrid.limit, true)
+    }
+})

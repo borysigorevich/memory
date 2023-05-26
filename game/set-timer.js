@@ -1,12 +1,14 @@
 import {getNodeElement} from "./utils.js";
 
-export const setTimer = (time, limit) => {
+export const setTimer = (time, limit, restore) => {
     const timer = getNodeElement('.timer');
 
-    const normalizedLimitTime = `0${limit}:00`
+    console.log(time, limit)
+
+    const normalizedLimitTime = `0${restore ? time.min : limit}:${time.sec > 9 ? time.sec : '0' + time.sec}`
     timer.innerHTML = normalizedLimitTime
 
-    time.min = limit
+    if (!restore) time.min = limit
 
     const endModeTitleNode = getNodeElement('.end-mode__modal-title');
     const movesNode = getNodeElement('.moves');

@@ -60,14 +60,14 @@ export const generateGridItems = (dimension, time, timeLimit) => {
 }
 
 function gameLogic(props, time) {
-    if(props.isLock) return
+    if (props.isLock) return
 
     const frontItemNode = getFirstNodeElement(this)
 
     const frontItemNodeValue = frontItemNode.innerHTML
 
-    if(this === props.prevElement) return
-    if(props.results.includes(frontItemNodeValue)) return
+    if (this === props.prevElement) return
+    if (props.results.includes(frontItemNodeValue)) return
 
     const movesValue = Number(props.movesNodeElement.innerHTML)
     props.movesNodeElement.innerHTML = String(movesValue + 1)
@@ -75,12 +75,12 @@ function gameLogic(props, time) {
     addClass(this, 'game__grid-item-container--flipped')
     addClass(frontItemNode, 'game__grid-item-container--active')
 
-    if(!props.prevElement) {
+    if (!props.prevElement) {
         props.prevElement = this
     }
 
-    if(props.numbers.length) {
-        if(frontItemNodeValue === props.numbers[0]) {
+    if (props.numbers.length) {
+        if (frontItemNodeValue === props.numbers[0]) {
             props.results.push(props.numbers.pop())
 
             const frontItemPrev = getFirstNodeElement(props.prevElement)
@@ -89,15 +89,19 @@ function gameLogic(props, time) {
             removeClass(frontItemNode, 'game__grid-item-container--active')
 
             // END GAME
-            if(props.results.length === Math.pow(props.dimension, 2) / 2) {
+            if (props.results.length === Math.pow(props.dimension, 2) / 2) {
                 const endModeTitleNode = getNodeElement('.end-mode__modal-title');
                 const movesNode = getNodeElement('.moves');
                 const endModeNode = getNodeElement('.end-mode');
                 const timeElapsedNode = getNodeElement('.elapsed');
                 const totalMovesNode = getNodeElement('.total-moves');
 
-                const elapsedMin = props.timeLimit === 1 ? 0 : props.timeLimit - time.min
-                const elapsedSec = 60 - time.sec
+                const totalLimitSeconds = Number(props.timeLimit) * 60
+                const totalLeftSeconds = time.min * 60 + time.sec
+
+                const totalElapsedSeconds = totalLimitSeconds - totalLeftSeconds
+                const elapsedMin = Math.floor(totalElapsedSeconds / 60)
+                const elapsedSec = totalElapsedSeconds % 60
 
                 endModeTitleNode.innerHTML = 'You did it!!'
                 timeElapsedNode.innerHTML = `0${elapsedMin}:${elapsedSec > 9 ? elapsedSec : '0' + elapsedSec}`
@@ -105,6 +109,8 @@ function gameLogic(props, time) {
 
                 clearInterval(time.intervalId)
                 endModeNode.classList.add('open')
+                time.min = 0
+                time.sec = 0
             }
 
             props.prevElement = null
