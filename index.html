@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="./styles/root.css">
     <link rel="stylesheet" href="./styles/start-mode-styles.css">
     <link rel="stylesheet" href="./styles/game-styles.css">
+    <link rel="stylesheet" href="./styles/end-mode-styles.css">
 
     <title>Frontend Mentor | Memory game</title>
 </head>
@@ -21,6 +22,7 @@
 
 <main>
 
+    <!--    ***START MODE***   -->
     <div class='start-mode'>
         <h2 class="start-mode__title">Memory</h2>
         <div class='start-mode__modal'>
@@ -53,10 +55,12 @@
         </div>
     </div>
 
+
+    <!--    ***GAME***   -->
     <div class="game">
         <h2 class="game__title">memory</h2>
 
-        <!--*** board ***-->
+        <!--*** PLAYGROUND ***-->
         <div class="game__grid-items">
 
         </div>
@@ -74,10 +78,32 @@
         </div>
     </div>
 
+    <!--    ***END MODE***   -->
+    <div class='end-mode'>
+
+        <div class='end-mode__modal'>
+            <h3 class='end-mode__modal-title'>You did it!</h3>
+            <p class="end-mode__modal-subtitle">Game over! Here’s how you got on…</p>
+            <div class="end-mode__modal-item-box">
+                <span class="end-mode__modal-item-box-left">Time Elapsed</span>
+                <span class="end-mode__modal-item-box-right elapsed">2</span>
+            </div>
+            <div class="end-mode__modal-item-box">
+                <span class="end-mode__modal-item-box-left">Moves Taken</span>
+                <span class="end-mode__modal-item-box-right total-moves">2 Moves</span>
+            </div>
+            <div class="end-mode__modal-button-box">
+                <button class="end-mode__modal-button-restart">Restart</button>
+                <button class="end-mode__modal-button-setup">Setup New Game</button>
+            </div>
+        </div>
+
+    </div>
+
 
 </main>
 
-<script type="module"  src="game/memory-game.js"></script>
+<script type="module" src="game/memory-game.js"></script>
 
 </body>
 </html>

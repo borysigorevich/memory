@@ -1,15 +1,17 @@
-import {
-    addClass,
-    removeClass,
-    getNodeElement,
-    getAllNodeElements,
-    generatePlayground,
-} from './utils.js'
+import {addClass, getAllNodeElements, getNodeElement, removeClass,} from './utils.js'
 import {generateGridItems} from "./game-logic.js"
 import {MatchGrid} from "./math-grid.js"
 import {gameDefaultSetting} from "./constants.js"
+import {setTimer} from "./set-timer.js";
+import {restartGame} from "./restart-game.js";
+import {setupGame} from "./setup-game.js";
 
 let gameGrid = new MatchGrid(gameDefaultSetting)
+const time = {
+    min: 0,
+    sec: 0,
+    intervalId: null
+}
 
 const optionButtonsNode = getAllNodeElements('.start-mode__option-button');
 
@@ -33,43 +35,21 @@ if (optionButtonsNode.length) {
     })
 }
 
-const startModeDiv = getNodeElement('.start-mode');
 const startButton = getNodeElement('.start-mode__modal-button-start');
 
 if (startButton) {
     startButton.addEventListener('click', function () {
+        const startModeDiv = getNodeElement('.start-mode');
         startModeDiv.style.display = 'none';
 
-        let numbersForGrid = generatePlayground(gameGrid.grid)
-
-        const timer = getNodeElement('.timer');
-
-        timer.innerHTML = `0${gameGrid.limit}:00`
-
-        let min = gameGrid.limit
-        let sec = 0
-
-        const interval = setInterval(() => {
-
-            if (min === 0 && sec === 0) {
-                clearInterval(interval)
-                alert('game over')
-                return
-            }
-
-            if (sec === 0) {
-                min--
-                sec = 59
-            } else {
-                sec--
-            }
-
-            timer.innerHTML = `0${min}:${sec > 9 ? sec : '0' + sec}`
-
-        }, 1000);
-
-        generateGridItems(gameGrid.grid, numbersForGrid)
+        setTimer(time, gameGrid.limit)
+        generateGridItems(gameGrid.grid, time, gameGrid.limit)
 
     })
 }
 
+const restartButton = getNodeElement('.end-mode__modal-button-restart');
+if(restartButton) restartButton.addEventListener('click', () => restartGame(time, gameGrid))
+
+const setupButton = getNodeElement('.end-mode__modal-button-setup');
+if(setupButton)setupButton.addEventListener('click', setupGame)
