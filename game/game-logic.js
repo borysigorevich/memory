@@ -1,12 +1,6 @@
 import anime from '../node_modules/animejs/lib/anime.es.js'
 import {
-    addClass,
-    createNodeElement,
-    generatePlayground,
-    getFirstNodeElement,
-    getNodeElement,
-    getRandomNumber,
-    removeClass
+    utils
 } from "./utils.js"
 import {timer} from './set-timer.js'
 
@@ -16,11 +10,11 @@ export class Playground {
 
         const playgroundRef = this
 
-        let numbersForGrid = generatePlayground(gameGrid.grid)
+        let numbersForGrid = utils.generatePlayground(gameGrid.grid)
 
-        const playground = getNodeElement('.game__grid-items');
+        const playground = utils.getNodeElement('.game__grid-items');
 
-        const moves = getNodeElement('.moves');
+        const moves = utils.getNodeElement('.moves');
         moves.innerHTML = '0'
 
         const gameProps = {
@@ -34,31 +28,31 @@ export class Playground {
 
         [...Array(Math.pow(Number(gameGrid.grid), 2))].forEach((_) => {
 
-            const animateContainer = createNodeElement('div');
-            const gridItemContainer = createNodeElement('div');
-            const gridItemFront = createNodeElement('div');
-            const gridItemBack = createNodeElement('div');
+            const animateContainer = utils.createNodeElement('div');
+            const gridItemContainer = utils.createNodeElement('div');
+            const gridItemFront = utils.createNodeElement('div');
+            const gridItemBack = utils.createNodeElement('div');
 
-            addClass(animateContainer, 'game__grid-item-animate-container')
+            utils.addClass(animateContainer, 'game__grid-item-animate-container')
             animateContainer.appendChild(gridItemContainer)
 
-            addClass(gridItemContainer, `game__grid-items-container`)
-            addClass(gridItemContainer, `game__grid-item-${gameGrid.grid}`)
+            utils.addClass(gridItemContainer, `game__grid-items-container`)
+            utils.addClass(gridItemContainer, `game__grid-item-${gameGrid.grid}`)
 
-            addClass(gridItemFront, 'game__grid-item-front')
-            addClass(gridItemFront, `game__grid-item-${gameGrid.grid}`)
+            utils.addClass(gridItemFront, 'game__grid-item-front')
+            utils.addClass(gridItemFront, `game__grid-item-${gameGrid.grid}`)
 
-            const randomIndex = getRandomNumber(numbersForGrid.length)
+            const randomIndex = utils.getRandomNumber(numbersForGrid.length)
             gridItemFront.innerHTML = String(numbersForGrid[randomIndex])
             numbersForGrid.splice(randomIndex, 1)
 
-            addClass(gridItemBack, 'game__grid-item-back')
-            addClass(gridItemBack, `game__grid-item-${gameGrid.grid}`)
+            utils.addClass(gridItemBack, 'game__grid-item-back')
+            utils.addClass(gridItemBack, `game__grid-item-${gameGrid.grid}`)
 
             gridItemContainer.appendChild(gridItemFront)
             gridItemContainer.appendChild(gridItemBack)
 
-            addClass(playground, `game__grid-items-${gameGrid.grid}`)
+            utils.addClass(playground, `game__grid-items-${gameGrid.grid}`)
             playground.appendChild(animateContainer);
 
             gridItemContainer.addEventListener('click', function () {
@@ -88,7 +82,7 @@ export class Playground {
     gameItemClickHandler(props, time) {
         if (props.isLock) return
 
-        const frontItemNode = getFirstNodeElement(this)
+        const frontItemNode = utils.getFirstNodeElement(this)
 
         const frontItemNodeValue = frontItemNode.innerHTML
 
@@ -98,8 +92,8 @@ export class Playground {
         const movesValue = Number(props.movesNodeElement.innerHTML)
         props.movesNodeElement.innerHTML = String(movesValue + 1)
 
-        addClass(this, 'game__grid-item-container--flipped')
-        addClass(frontItemNode, 'game__grid-item-container--active')
+        utils.addClass(this, 'game__grid-item-container--flipped')
+        utils.addClass(frontItemNode, 'game__grid-item-container--active')
 
         if (!props.prevElement) {
             props.prevElement = this
@@ -109,18 +103,18 @@ export class Playground {
             if (frontItemNodeValue === props.numbers[0]) {
                 props.results.push(props.numbers.pop())
 
-                const frontItemPrev = getFirstNodeElement(props.prevElement)
+                const frontItemPrev = utils.getFirstNodeElement(props.prevElement)
 
-                removeClass(frontItemPrev, 'game__grid-item-container--active')
-                removeClass(frontItemNode, 'game__grid-item-container--active')
+                utils.removeClass(frontItemPrev, 'game__grid-item-container--active')
+                utils.removeClass(frontItemNode, 'game__grid-item-container--active')
 
                 // END GAME
                 if (props.results.length === Math.pow(props.gameGrid.grid, 2) / 2) {
-                    const endModeTitleNode = getNodeElement('.end-mode__modal-title');
-                    const movesNode = getNodeElement('.moves');
-                    const endModeNode = getNodeElement('.end-mode');
-                    const timeElapsedNode = getNodeElement('.elapsed');
-                    const totalMovesNode = getNodeElement('.total-moves');
+                    const endModeTitleNode = utils.getNodeElement('.end-mode__modal-title');
+                    const movesNode = utils.getNodeElement('.moves');
+                    const endModeNode = utils.getNodeElement('.end-mode');
+                    const timeElapsedNode = utils.getNodeElement('.elapsed');
+                    const totalMovesNode = utils.getNodeElement('.total-moves');
 
                     const totalLimitSeconds = Number(props.gameGrid.limit) * 60
                     const totalLeftSeconds = time.min * 60 + time.sec
@@ -146,8 +140,8 @@ export class Playground {
                 props.isLock = true
                 setTimeout(() => {
 
-                    removeClass(this, 'game__grid-item-container--flipped')
-                    removeClass(props.prevElement, 'game__grid-item-container--flipped')
+                    utils.removeClass(this, 'game__grid-item-container--flipped')
+                    utils.removeClass(props.prevElement, 'game__grid-item-container--flipped')
 
                     props.prevElement = null
                     props.isLock = false

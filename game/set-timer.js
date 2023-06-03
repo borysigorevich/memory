@@ -1,5 +1,5 @@
 import {utils} from "./utils.js";
-
+import {gameGrid} from "./match-grid.js";
 
 export class Timer {
 
@@ -9,7 +9,7 @@ export class Timer {
         intervalId: null
     }
 
-    setTimer = (gameGrid, restore) => {
+    setTimer = (restore) => {
         console.log('gameGrid', gameGrid)
         const timer = utils.getNodeElement('.timer');
         timer.innerHTML =  `0${restore ? this.time.min : gameGrid.limit}:${this.time.sec > 9 ? this.time.sec : '0' + this.time.sec}`
