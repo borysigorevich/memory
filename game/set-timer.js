@@ -1,43 +1,55 @@
-import {getNodeElement} from "./utils.js";
+import {utils} from "./utils.js";
 
-export const setTimer = (time, gameGrid, restore) => {
-    const timer = getNodeElement('.timer');
-    timer.innerHTML =  `0${restore ? time.min : gameGrid.limit}:${time.sec > 9 ? time.sec : '0' + time.sec}`
 
-    if (!restore) time.min = gameGrid.limit
+export class Timer {
 
-    const endModeTitleNode = getNodeElement('.end-mode__modal-title');
-    const movesNode = getNodeElement('.moves');
-    const endModeNode = getNodeElement('.end-mode');
-    const timeElapsedNode = getNodeElement('.elapsed');
-    const totalMovesNode = getNodeElement('.total-moves');
+    time = {
+        min: 0,
+        sec: 0,
+        intervalId: null
+    }
 
-    time.intervalId = setInterval(() => {
+    setTimer = (gameGrid, restore) => {
+        console.log('gameGrid', gameGrid)
+        const timer = utils.getNodeElement('.timer');
+        timer.innerHTML =  `0${restore ? this.time.min : gameGrid.limit}:${this.time.sec > 9 ? this.time.sec : '0' + this.time.sec}`
 
-        if (time.min === 0 && time.sec === 0) {
+        if (!restore) this.time.min = gameGrid.limit
 
-            endModeTitleNode.innerHTML = 'Time is up!'
-            timeElapsedNode.innerHTML = `0${gameGrid.limit}:00`
-            totalMovesNode.innerHTML = `${movesNode.innerHTML} Moves`
+        const endModeTitleNode = utils.getNodeElement('.end-mode__modal-title');
+        const movesNode = utils.getNodeElement('.moves');
+        const endModeNode = utils.getNodeElement('.end-mode');
+        const timeElapsedNode = utils.getNodeElement('.elapsed');
+        const totalMovesNode = utils.getNodeElement('.total-moves');
 
-            endModeNode.classList.add('open')
-            clearInterval(time.intervalId)
-            time.intervalId = null
-            gameGrid.isStarted = false
-            time.sec = 0
-            time.min = 0
-            return
-        }
+        this.time.intervalId = setInterval(() => {
 
-        if (time.sec === 0) {
-            time.min--
-            time.sec = 59
-        } else {
-            time.sec--
-        }
+            if (this.time.min === 0 && this.time.sec === 0) {
 
-        timer.innerHTML = `0${time.min}:${time.sec > 9 ? time.sec : '0' + time.sec}`
+                endModeTitleNode.innerHTML = 'Time is up!'
+                timeElapsedNode.innerHTML = `0${gameGrid.limit}:00`
+                totalMovesNode.innerHTML = `${movesNode.innerHTML} Moves`
 
-    }, 1000);
+                endModeNode.classList.add('open')
+                clearInterval(this.time.intervalId)
+                this.time.intervalId = null
+                gameGrid.isStarted = false
+                this.time.sec = 0
+                this.time.min = 0
+                return
+            }
 
+            if (this.time.sec === 0) {
+                this.time.min--
+                this.time.sec = 59
+            } else {
+                this.time.sec--
+            }
+
+            timer.innerHTML = `0${this.time.min}:${this.time.sec > 9 ? this.time.sec : '0' + this.time.sec}`
+
+        }, 1000);
+    }
 }
+
+export const timer = new Timer()
