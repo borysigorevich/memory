@@ -1,12 +1,12 @@
 import {timer} from "./set-timer.js";
-import {gameGrid} from "./match-grid.js";
-import {OptionButtons, RestartButton, SetupButton, StartButton} from "./buttons.js";
+import {matchGrid} from "./match-grid.js";
+import {OptionButtons, RestartButton, SetupButton, StartButton} from "./buttons";
 
 export class Game {
 
     constructor() {
 
-        const optionsButtons = new OptionButtons(gameGrid)
+        const optionsButtons = new OptionButtons(matchGrid)
         const startButton = new StartButton()
         const restartButton = new RestartButton()
         const setupButton = new SetupButton()
@@ -17,9 +17,11 @@ export class Game {
                 timer.time.intervalId = null
             }
 
-            if (document.visibilityState === 'visible' && gameGrid.isStarted) {
+            if (document.visibilityState === 'visible' && matchGrid.isStarted) {
                 timer.setTimer(true)
             }
         })
     }
+
+
 }

@@ -8,5 +8,4 @@ export class MatchGrid {
     }
 }
 
-
-export const gameGrid = new MatchGrid()
+export const matchGrid = new MatchGrid()

@@ -1,5 +1,5 @@
 import {utils} from "./utils.js";
-import {gameGrid} from "./match-grid.js";
+import {matchGrid} from "./match-grid.js";
 
 export class Timer {
 
@@ -10,11 +10,10 @@ export class Timer {
     }
 
     setTimer = (restore) => {
-        console.log('gameGrid', gameGrid)
         const timer = utils.getNodeElement('.timer');
-        timer.innerHTML =  `0${restore ? this.time.min : gameGrid.limit}:${this.time.sec > 9 ? this.time.sec : '0' + this.time.sec}`
+        timer.innerHTML =  `0${restore ? this.time.min : matchGrid.limit}:${this.time.sec > 9 ? this.time.sec : '0' + this.time.sec}`
 
-        if (!restore) this.time.min = gameGrid.limit
+        if (!restore) this.time.min = matchGrid.limit
 
         const endModeTitleNode = utils.getNodeElement('.end-mode__modal-title');
         const movesNode = utils.getNodeElement('.moves');
@@ -27,13 +26,13 @@ export class Timer {
             if (this.time.min === 0 && this.time.sec === 0) {
 
                 endModeTitleNode.innerHTML = 'Time is up!'
-                timeElapsedNode.innerHTML = `0${gameGrid.limit}:00`
+                timeElapsedNode.innerHTML = `0${matchGrid.limit}:00`
                 totalMovesNode.innerHTML = `${movesNode.innerHTML} Moves`
 
                 endModeNode.classList.add('open')
                 clearInterval(this.time.intervalId)
                 this.time.intervalId = null
-                gameGrid.isStarted = false
+                matchGrid.isStarted = false
                 this.time.sec = 0
                 this.time.min = 0
                 return
